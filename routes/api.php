@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\UserResource;
+use App\Http\Controllers\Api\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) { 
         return new UserResource($request->user());
     });
+
+    Route::put('/categories/reorder', [CategoryController::class, 'reorder'])->name('categories.reorder');
+
+    Route::apiResources([
+        'categories' => CategoryController::class,
+    ]);
 });
+
+
+
+
