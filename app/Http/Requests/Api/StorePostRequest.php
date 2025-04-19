@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class StorePostRequest extends FormRequest
 {
@@ -11,7 +12,17 @@ class StorePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'slug' => Str::slug($this->slug),
+        ]);
     }
 
     /**
@@ -22,7 +33,12 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|unique:posts,title|max:255',
+            'slug' => 'required|unique:posts,slug|max:255',
+            'description' => 'required',
+            'category_id' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'content' => 'required',
         ];
     }
 }

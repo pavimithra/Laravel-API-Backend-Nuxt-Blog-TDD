@@ -4,9 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Str;
 
-class PostResource extends JsonResource
+class PostWithContentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,8 +18,10 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'category_name' => $this->category->name,            
-            'description' => Str::words(Str::of($this->description)->stripTags(), 7 ),
+            'description' => $this->description,
+            'category_id' => $this->category_id,
+            'category_name' => $this->category->name,
+            'content' => $this->content,
             'status' => $this->status,
             'image' => asset('storage/'.$this->image),
         ];

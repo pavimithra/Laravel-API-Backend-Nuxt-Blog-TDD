@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,5 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
+
+Route::get('/posts/getcategories', [PostController::class, 'getcategories'])->name('posts.getcategories');
 
 require __DIR__.'/auth.php';

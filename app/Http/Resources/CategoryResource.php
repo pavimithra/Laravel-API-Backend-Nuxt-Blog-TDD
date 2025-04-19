@@ -18,7 +18,7 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'image' => "http://localhost:8000/storage/".$this->image,
+            'image' => asset('storage/'.$this->image),
         ];
     }
 }

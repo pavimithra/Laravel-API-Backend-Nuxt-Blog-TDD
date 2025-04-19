@@ -50,7 +50,7 @@ class CategoryTest extends TestCase
                         $json->where('id', 1)
                         ->where('name', 'Category 1')
                         ->where('slug', fn (string $slug) => str($slug)->is(Str::slug('Category 1')))
-                        ->where('image', 'http://localhost:8000/storage/images/category/'.$file->hashName())
+                        ->where('image', config('app.url') . '/storage/images/category/' . $file->hashName())
                         ->missing('order')
                     )
             );
@@ -98,7 +98,7 @@ class CategoryTest extends TestCase
                 'id' => 1,
                 'name' => 'Category 1',
                 'slug' => Str::slug('Category 1'),
-                'image' => 'http://localhost:8000/storage/images/category/'.$file->hashName(),
+                'image' => config('app.url') . '/storage/images/category/' . $file->hashName(),
             ]);
 
         Storage::disk('public')->assertExists('images/category/'.$file->hashName());
@@ -140,11 +140,13 @@ class CategoryTest extends TestCase
             'order' => "1",
         ];
 
-        $category = $this->actingAs($this->user)->postJson('/api/categories', $categoryData);
+        $response = $this->actingAs($this->user)->postJson('/api/categories', $categoryData);
+        
+        $category = Category::latest()->first(); // Retrieve the latest category from the database
 
         $fileNew = UploadedFile::fake()->image('category1.jpg');
 
-        $response = $this->putJson('/api/categories/' . $category['id'], [
+        $response = $this->actingAs($this->user)->putJson('/api/categories/' . $category->id, [
             'name' => 'Category New',
             'slug' => 'Category New',
             'image' => $fileNew,

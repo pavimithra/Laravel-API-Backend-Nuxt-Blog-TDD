@@ -22,13 +22,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return new UserResource($request->user());
     });
 
-    Route::put('/categories/reorder', [CategoryController::class, 'reorder'])->name('categories.reorder');
+    Route::put('/categories/reOrder', [CategoryController::class, 'reOrder'])->name('categories.reOrder');
+
+    Route::get('/posts/getCategories', [PostController::class, 'getCategories'])->name('posts.getCategories');
+
+    Route::post('/posts/performAction', [PostController::class, 'performAction'])->name('posts.performAction');
 
     Route::apiResources([
         'categories' => CategoryController::class,
         'posts' => PostController::class,
     ]);
 });
+
 
 
 
